@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var util = require('util'),
+    path = require('path'),
+    program = require('commander'),
+    fs = require('fs');
+
+program
+    .option('-l, --load <file>',            'path to file with triples to serve')
+    .option('-f, --fake-namespace <host>', 'fake namespace of URIs for testing')
+    .option('-p, --port <port>', 'fake host part of URIs for testing', parseInt)
+    .parse(process.argv);
+
+var config;
+try {
+    config = require(path.join(__dirname, '..', 'config')).defaults;
+} catch (error) {
+    console.log('Could not find config.js.');
+    console.log('Please copy config.js-dist to config.js, adapt it to your needs and try again.');
+    process.exit();
+}
+
+var options = {
+    'port': program.port || config.server.port,
+    'load': program.load,
+    'fakeNamespace': program.fakeNamespace || config.fakeNamespace
+};
+
+var server = require(path.join('..', 'lib', 'server.js'));
+server.start(options, function (err, server) {
+    if (err) {
+        return util.puts('Error starting LDP server: ' + err.message);
+    }
+
+    process.stdout.write('Linked Data Platform server started.\n');
+    process.stdout.write('listening on port ' + options.port + '\n');
+});
+
