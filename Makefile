@@ -13,6 +13,7 @@ all:
 	@echo ""
 	@echo "available targets:"
 	@echo "  libs -- locally installs node dependencies via npm"
+	@echo "  test -- run unit test (requires node-unit to be installed)"
 
 libs:
 ifneq ($(MISSING),)
