@@ -27,9 +27,32 @@ Implementation of the Linked Data Platform for Node.
 
 ## Dependencies
 
+You can install some missing dependencies with
+
+    make libs
+
+Furthermore you will need the [Raptor RDF parser](http://github.com/0xfeedface/node_raptor).
+
 ### Connect
 
 * http://www.senchalabs.org/connect/
 * allows us to plug in RDF middleware
 * allows us to plug in WebID auth later
+
+## Usage
+
+If you have all dependencies you can check if LDP works correctly by running the tests with
+
+    make test
+
+You can start LDP with several options. To see the options run `bin/start --help`
+
+    Usage: start [options]
+
+    Options:
+
+    -h, --help                   output usage information
+    -l, --load <file>            path to file with triples to serve
+    -f, --fake-namespace <host>  fake namespace of URIs for testing
+    -p, --port <port>            fake host part of URIs for testing
 
