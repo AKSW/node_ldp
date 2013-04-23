@@ -1,0 +1,10 @@
+@base <http://webid.example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<Alice> a foaf:Person;
+     foaf:name "Alice Example";
+     foaf:firstName "Alice";
+     foaf:lastName "Example";
+     foaf:birthday "04-01";
+     foaf:gender "female" .

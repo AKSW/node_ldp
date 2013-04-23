@@ -2,10 +2,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<me> a foaf:Person;
-     foaf:name "Example Person";
-     foaf:firstName "Example";
-     foaf:lastName "Person";
+<Bob> a foaf:Person;
+     foaf:name "Bob Example";
+     foaf:firstName "Bob";
+     foaf:lastName "Example";
      foaf:birthday "11-11";
      foaf:gender "male";
      <blankNode> _:node1 .
@@ -15,4 +15,4 @@ _:node1 a foaf:image;
     <blankNode> _:node2 .
 
 _:node2 a foaf:homepage;
-    dc:creator <me> .
+    dc:creator <Bob> .
