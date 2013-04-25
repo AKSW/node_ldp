@@ -84,7 +84,7 @@ exports.testMixinStatement = nodeunit.testCase({
         test.deepEqual(base, expected);
 
         test.done();
-    },
+    }
 });
 
 exports.testMixinDescription = nodeunit.testCase({
@@ -96,7 +96,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'foo'},
+                    { 'type': 'literal', 'value': 'foo'}
                 ]
             }
         };
@@ -114,7 +114,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'foo'},
+                    { 'type': 'literal', 'value': 'foo'}
                 ]
             }
         };
@@ -123,7 +123,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p2': [
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
-                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
+                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'}
                 ]
             }
         };
@@ -131,11 +131,11 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'foo'},
+                    { 'type': 'literal', 'value': 'foo'}
                 ],
                 'http://example.com/p2': [
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
-                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
+                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'}
                 ]
             }
         };
@@ -155,7 +155,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'foo'},
+                    { 'type': 'literal', 'value': 'foo'}
                 ]
             }
         };
@@ -164,7 +164,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s2': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
-                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
+                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'}
                 ]
             }
         };
@@ -172,13 +172,13 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'foo'},
-                ],
+                    { 'type': 'literal', 'value': 'foo'}
+                ]
             },
             'http://example.com/s2': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
-                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
+                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'}
                 ]
             }
         };
@@ -198,7 +198,7 @@ exports.testMixinDescription = nodeunit.testCase({
             'http://example.com/s1': {
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
-                    { 'type': 'literal', 'value': 'same'},
+                    { 'type': 'literal', 'value': 'same'}
                 ]
             }
         };
@@ -208,7 +208,7 @@ exports.testMixinDescription = nodeunit.testCase({
                 'http://example.com/p1': [
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
                     { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
-                    { 'type': 'literal', 'value': 'same'},
+                    { 'type': 'literal', 'value': 'same'}
                 ]
             }
         };
@@ -218,8 +218,8 @@ exports.testMixinDescription = nodeunit.testCase({
                     { 'type': 'uri', 'value': 'http://example.com/o1'},
                     { 'type': 'literal', 'value': 'same'},
                     { 'type': 'uri', 'value': 'http://example.com/o2'},
-                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'},
-                ],
+                    { 'type': 'literal', 'value': 'bar', 'lang': 'en'}
+                ]
             }
         };
 
@@ -230,7 +230,7 @@ exports.testMixinDescription = nodeunit.testCase({
         test.deepEqual(base2, expected);
 
         test.done();
-    },
+    }
 });
 
 exports.testObjectEquals = nodeunit.testCase({
