@@ -333,3 +333,90 @@ exports.testObjectEquals = nodeunit.testCase({
         test.done();
     }
 });
+
+exports.testHashDescription = nodeunit.testCase({
+    'empty descriptions hash to the same value': function (test) {
+        test.expect(3);
+
+        rdf.hashDescription({}, function (err, h1) {
+            test.equal(null, err);
+
+            rdf.hashDescription({}, function (err, h2) {
+                test.equal(null, err);
+                test.ok(h1 === h1);
+
+                test.done();
+            });
+        });
+    },
+
+    'simple descriptions hash to the same value': function (test) {
+        test.expect(3);
+
+        var d1 = {
+            'http://example.com/r1': {
+                'http://example.com/p1': [
+                    { type: 'uri', value: 'http://example.com/o1' },
+                    { type: 'literal', value: 'value 1' }
+                ],
+                'http://example.com/p2': [
+                    { value: 'ttt', type: 'literal' }
+                ]
+            }
+        };
+
+        var d2 = {
+            'http://example.com/r1': {
+                'http://example.com/p2': [
+                    { type: 'literal', value: 'ttt' }
+                ],
+                'http://example.com/p1': [
+                    { type: 'literal', value: 'value 1' },
+                    { type: 'uri', value: 'http://example.com/o1' }
+                ]
+            }
+        };
+
+        rdf.hashDescription(d1, function (err, h1) {
+            test.equal(null, err);
+
+            rdf.hashDescription(d2, function (err, h2) {
+                test.equal(null, err);
+                test.ok(h1 === h1);
+
+                test.done();
+            });
+        });
+    },
+
+    'descriptions using blank nodes with different IDs hash to the same value': function (test) {
+        test.expect(3);
+
+        var d1 = {
+            'http://example.com/r2': {
+                'http://example.com/p3': [
+                    { type: 'bnode', value: '_:b12345' }
+                ]
+            }
+        };
+
+        var d2 = {
+            'http://example.com/r2': {
+                'http://example.com/p3': [
+                    { type: 'bnode', value: '_:b6789' }
+                ]
+            }
+        };
+
+        rdf.hashDescription(d1, function (err, h1) {
+            test.equal(null, err);
+
+            rdf.hashDescription(d2, function (err, h2) {
+                test.equal(null, err);
+                test.ok(h1 === h1);
+
+                test.done();
+            });
+        });
+    }
+});
