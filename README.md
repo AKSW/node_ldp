@@ -1,4 +1,5 @@
 `node_ldp` -- Linked Data Platform for Node
+===========================================
 
 Have you ever wanted to quickly publish Linked Data resources on the Web?
 Then node_ldp is your answer.
