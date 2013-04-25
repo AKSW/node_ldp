@@ -1,51 +1,28 @@
-# node_ldp
+`node_ldp` -- Linked Data Platform for Node
 
-Implementation of the Linked Data Platform for Node.
+Have you ever wanted to quickly publish Linked Data resources on the Web?
+Then node_ldp is your answer.
+Since `node_ldp` is an implementation of the [Linked Data Platform specification](http://www.w3.org/TR/ldp/) it additionally allows you to:
 
-## Components
+* create resources via `PUT`,
+* update/create resources via `POST`,
+* delete resources via `DELETE`,
 
-### RDF Middleware
+All of this for plain resources or resources managed in [LDP containers](http://www.w3.org/TR/ldp/#linked-data-platform-containers).
 
-* performs content negotiation
-* sets HTTP response header
-* parses body into internal canonical format (t.b.s)
-* serializes internal canonical format (t.b.s.) to RDF response
+## Runtime Dependencies
 
-### Router
-
-* must determine whether requested resource is resource or container
-* must determine whether request is valid
-
-### RDF Store
-
-* check whether resource exists
-* get CBD of a given resource
-* update an existing resource with RDF change set (?)
-* according to LDP working draft, search by predicate not required
-  * http://www.w3.org/TR/ldp/
-  * what do we need that for?
-
-## Dependencies
-
-You can install some missing dependencies with
+You can install most dependencies with
 
     make libs
 
-Furthermore you will need the [Raptor RDF parser](http://github.com/0xfeedface/node_raptor).
-
-### Connect
-
-* http://www.senchalabs.org/connect/
-* allows us to plug in RDF middleware
-* allows us to plug in WebID auth later
+In addition, [`node_raptor`](http://github.com/0xfeedface/node_raptor) is required.
 
 ## Usage
 
-If you have all dependencies you can check if LDP works correctly by running the tests with
-
-    make test
-
-You can start LDP with several options. To see the options run `bin/start --help`
+You can start LDP with several options.
+To see the options run `bin/start --help`.
+Fake namespace and initial triples file are currently *required*.
 
     Usage: start [options]
 
@@ -55,4 +32,13 @@ You can start LDP with several options. To see the options run `bin/start --help
     -l, --load <file>            path to file with triples to serve
     -f, --fake-namespace <host>  fake namespace of URIs for testing
     -p, --port <port>            fake host part of URIs for testing
+
+## Running Test
+
+`node_ldp`'s test suite requires' `nodeunit`.
+Once you have that installed just type
+
+    make test
+
+at the command prompt.
 
