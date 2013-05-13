@@ -420,3 +420,273 @@ exports.testHashDescription = nodeunit.testCase({
         });
     }
 });
+
+exports.testToJSONLD = nodeunit.testCase({
+    'simple with multiple literal objects': function (test) {
+        test.expect(2);
+
+        var context = { 'p1': 'http://example.com/p1' };
+        var description = {
+            'http://example.com/r1': {
+                'http://example.com/p1': [
+                    { 'type': 'literal', 'value': 'foo bar' },
+                    { 'type': 'literal',
+                      'value': 'foo bar baz',
+                      'datatype': 'http://www.w3.org/2001/XMLSchema#string' }
+                ]
+            }
+        };
+        var expected = {
+            '@id': 'http://example.com/r1',
+            '@context': context,
+            'p1': [
+                'foo bar',
+                { '@value': 'foo bar baz', '@type': 'http://www.w3.org/2001/XMLSchema#string' }
+            ]
+        };
+
+        rdf.toJSONLD(description, context, function (err, ld) {
+            test.equal(null, err);
+            test.deepEqual(expected, ld);
+            test.done();
+        });
+    },
+
+    'simple with single uri object': function (test) {
+        test.expect(2);
+
+        var context = { 'p2': 'http://example.com/p2' };
+        var description = {
+            'http://example.com/r2': {
+                'http://example.com/p2': [
+                    { 'type': 'uri', 'value': 'http://example.com/o2' }
+                ]
+            }
+        };
+        var expected = {
+            '@id': 'http://example.com/r2',
+            '@context': context,
+            'p2': { '@id': 'http://example.com/o2' }
+        };
+
+        rdf.toJSONLD(description, context, function (err, ld) {
+            test.equal(null, err);
+            test.deepEqual(expected, ld);
+            test.done();
+        });
+    },
+
+    'multiple resources': function (test) {
+        test.expect(2);
+
+        var description = {
+            'http://example.com/fr2': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'bar' },
+                    { 'type': 'literal', 'value': 'baz' }
+                ]
+            },
+            'http://example.com/fr1': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'bar' }
+                ]
+            },
+            'http://example.com/fr3': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'ttt', 'lang': 'en' }
+                ]
+            }
+        };
+
+        var context = {
+            'foo': 'http://example.com/foo',
+            'FrameResource': 'http://example.com/FrameResource'
+        };
+        var expected = {
+            '@context': context,
+            '@graph': [{
+                '@id': 'http://example.com/fr2',
+                '@type': 'FrameResource',
+                'foo': [ 'bar', 'baz' ]
+            }, {
+                '@id': 'http://example.com/fr1',
+                '@type': 'FrameResource',
+                'foo': 'bar'
+            }, {
+                '@id': 'http://example.com/fr3',
+                '@type': 'FrameResource',
+                'foo': { '@value': 'ttt', '@language': 'en' }
+            }]
+        };
+
+        rdf.toJSONLD(description, context, function (err, ld) {
+            test.equal(null, err);
+            test.deepEqual(expected, ld);
+            test.done();
+        });
+    }
+});
+
+exports.testToRDFJSON = nodeunit.testCase({
+    'simple with single @id object': function (test) {
+        test.expect(2);
+
+        var jsonLD = {
+            '@context': { 'p3': { '@id': 'http://example.com/p3', '@type': '@id' } },
+            '@id': 'http://example.com/r3',
+            'p3': 'http://example.com/o3'
+        };
+
+        var expected = {
+            'http://example.com/r3': {
+                'http://example.com/p3': [{
+                    'type': 'uri',
+                    'value': 'http://example.com/o3'
+                }]
+            }
+        };
+
+        rdf.toRDFJSON(jsonLD, function (err, result) {
+            test.equal(null, err);
+            test.deepEqual(result, expected);
+            test.done();
+        });
+    },
+
+    'simple with multiple @id objects, including blank node': function (test) {
+        test.expect(2);
+
+        var jsonLD = {
+            '@context': { 'p3': { '@id': 'http://example.com/p3', '@type': '@id' } },
+            '@id': 'http://example.com/r3',
+            'p3': [ 'http://example.com/o3', 'http://example.com/o4', '_:objectNode5']
+        };
+
+        var expected = {
+            'http://example.com/r3': {
+                'http://example.com/p3': [{
+                    'type': 'uri',
+                    'value': 'http://example.com/o3'
+                }, {
+                    'type': 'uri',
+                    'value': 'http://example.com/o4'
+                }, {
+                    'type': 'bnode',
+                    'value': '_:objectNode5'
+                }]
+            }
+        };
+
+        rdf.toRDFJSON(jsonLD, function (err, result) {
+            test.equal(null, err);
+            test.deepEqual(result, expected);
+            test.done();
+        });
+    },
+
+    'simple with multiple literal objects': function (test) {
+        test.expect(2);
+
+        var jsonLD = {
+            '@context': {
+                'p4': { '@id': 'http://example.com/p4' },
+                'p5': { '@id': 'http://example.com/p5', '@type': 'xsd:float' },
+                'xsd': 'http://www.w3.org/2001/XMLSchema#'
+            },
+            '@id': 'http://example.com/r4',
+            'p4': [ 'value 1', 'value 2' ],
+            'p5': 1234.5678
+        };
+
+        var expected = {
+            'http://example.com/r4': {
+                'http://example.com/p5': [{
+                    'type': 'literal',
+                    'value': '1234.5678',
+                    'datatype': 'http://www.w3.org/2001/XMLSchema#float'
+                }],
+                'http://example.com/p4': [{
+                    'type': 'literal',
+                    'value': 'value 1'
+                }, {
+                    'type': 'literal',
+                    'value': 'value 2'
+                }]
+            }
+        };
+
+        rdf.toRDFJSON(jsonLD, function (err, result) {
+            test.equal(null, err);
+            test.deepEqual(result, expected);
+            test.done();
+        });
+    },
+
+    'multiple resources': function (test) {
+        test.expect(2);
+
+        var jsonLDFrame = {
+            '@context': {
+                'foo': 'http://example.com/foo',
+                'FrameResource': 'http://example.com/FrameResource'
+            },
+            '@graph': [{
+                '@id': 'http://example.com/fr1',
+                '@type': 'FrameResource',
+                'foo': 'bar'
+            }, {
+                '@id': 'http://example.com/fr2',
+                '@type': 'FrameResource',
+                'foo': [ 'bar', 'baz' ]
+            }, {
+                '@id': 'http://example.com/fr3',
+                '@type': 'FrameResource',
+                'foo': { '@value': 'ttt', '@language': 'en' }
+            }]
+        };
+
+        var expected = {
+            'http://example.com/fr2': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'bar' },
+                    { 'type': 'literal', 'value': 'baz' }
+                ]
+
+            },
+            'http://example.com/fr1': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'bar' }
+                ]
+            },
+            'http://example.com/fr3': {
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': [
+                    { 'type': 'uri', 'value': 'http://example.com/FrameResource' }
+                ],
+                'http://example.com/foo': [
+                    { 'type': 'literal', 'value': 'ttt', 'lang': 'en' }
+                ]
+            }
+        };
+
+        rdf.toRDFJSON(jsonLDFrame, function (err, result) {
+            test.equal(null, err);
+            test.deepEqual(expected, result);
+            test.done();
+        });
+    }
+});

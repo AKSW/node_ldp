@@ -1,6 +1,20 @@
 var defaults = exports.defaults = {
     server: {
         port: 8001
+    },
+
+    context: {
+        '@context': {
+            'title':    'http://purl.org/dc/terms/title',
+            'created':  'http://purl.org/dc/terms/created',
+            'modified': 'http://purl.org/dc/terms/modified',
+            'content':  'http://rdfs.org/sioc/ns#content',
+            'creator':  'http://purl.org/dc/terms/creator',
+            'replies':  'http://rdfs.org/sioc/ns#has_reply',
+            'Comment:'  'http://ns.bioasq.org/Comment',
+            'User':     'http://ns.bioasq.org/User',
+            'Question': 'http://ns.bioasq.org/Question'
+        }
     }
 };
 
@@ -8,10 +22,11 @@ var defaults = exports.defaults = {
  * Mapping of mime types to raptor parser names.
  */
 var typeMapping = exports.typeMapping = {
-    'application/rdf+xml':  'rdfxml', 
-    'text/turtle':          'turtle', 
-    'application/rdf+json': 'json', 
-    'text/plain':           'ntriples', 
+    'application/rdf+xml':  'rdfxml',
+    'text/turtle':          'turtle',
+    'application/rdf+json': 'json',
+    'application/ld+json':  'jsonld',
+    'text/plain':           'ntriples',
     '*/*':                  'turtle'
 };
 
