@@ -8,11 +8,11 @@
      foaf:lastName "Example";
      foaf:birthday "11-11";
      foaf:gender "male";
-     <blankNode> _:node1 .
+     foaf:img _:node1 .
      
-_:node1 a foaf:image;
+_:node1 a foaf:Image;
     <location> <http://example.com/image.png>;
     <blankNode> _:node2 .
 
-_:node2 a foaf:homepage;
+_:node2 a foaf:Document;
     dc:creator <Bob> .
