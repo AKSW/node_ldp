@@ -24,3 +24,7 @@ endif
 .PHONY: test
 test:
 	@$(NODEUNIT) $(TESTS)
+
+server-empty:
+	@echo "start an empty server"
+	bin/start -l test/empty.ttl
